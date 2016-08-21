@@ -1,0 +1,11 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "Yet another discord bot.",
+  "main": "bot.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/james9909/discord-bot.git"
+  },
+  "license": "MIT"
+}
