@@ -37,13 +37,13 @@ bot.on("message", function(message) {
 });
 
 bot.on("voiceJoin", function(VoiceChannel,User){
-    bot.sendTTSMessage(VoiceChannel, User.username + " has joined");
-    console.log("Hi");
+    bot.sendTTSMessage(bot.channels[0], User.username + " has joined");
+    console.log("Hi " + User.username);
 });
 
 bot.on("voiceLeave", function(VoiceChannel,User){
-    bot.sendTTSMessage(VoiceChannel, User.username + " has left");
-    console.log("Bye");
+    bot.sendTTSMessage(bot.channels[0], User.username + " has left");
+    console.log("Bye " + User.username);
 });
 
 
