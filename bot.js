@@ -41,7 +41,7 @@ bot.on("voiceJoin", function(voiceChannel, user) {
 });
 
 bot.on("voiceLeave", function(voiceChannel, user) {
-    bot.sendTTSMessage(bot.channels[0], User.username + " has left");
+    bot.sendTTSMessage(bot.channels[0], user.username + " has left");
 });
 
 plugins.loadPlugins(commands);
