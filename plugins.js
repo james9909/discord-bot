@@ -3,7 +3,7 @@ var npm = require("npm");
 var path = require("path");
 var execSync = require("child_process").execSync;
 
-var pluginDirectory = "plugins/"
+var pluginDirectory = "plugins/";
 
 function pathExists(p) {
     try {
@@ -23,8 +23,9 @@ function getDirectories(source) {
 function getNPMDependencies(path) {
     var p = require(path);
 
+    var dependency;
     var dependencies = [];
-    for (var dependency in p.dependencies) {
+    for (dependency in p.dependencies) {
         dependencies.push(dependency + "@" + p.dependencies[dependency]);
     }
 
@@ -45,24 +46,27 @@ function loadPlugins(commands) {
         return;
     }
     var plugins = getDirectories(pluginDirectory);
-    for (var p in plugins) {
-        var dependencyPath = "./" + pluginDirectory + plugins[p] + "/package.json";
+    var p, dependencyPath, installed, pluginPath, plugin, command;
+    for (p in plugins) {
+        dependencyPath = "./" + pluginDirectory + plugins[p] + "/package.json";
         if (!pathExists(dependencyPath)) {
             console.log("[!] " + plugins[p] + " is missing a package.json file! Skipping...");
             continue;
         }
-        var installed = installDependencies(getNPMDependencies(dependencyPath));
-        if (installed) console.log("[*] Dependencies for '" + plugins[p] + "' have been installed");
+        installed = installDependencies(getNPMDependencies(dependencyPath));
+        if (installed) {
+            console.log("[*] Dependencies for '" + plugins[p] + "' have been installed");
+        }
 
-        var pluginPath = "./" + pluginDirectory + plugins[p] + "/plugin.js";
+        pluginPath = "./" + pluginDirectory + plugins[p] + "/plugin.js";
         if (!pathExists(pluginPath)) {
             console.log("[!] " + plugins[p] + " is missing a plugin.js file! Skipping...");
             continue;
         }
 
-        var plugin = require(pluginPath);
-        for (var command in plugin) {
-            if (command in commands) {
+        plugin = require(pluginPath);
+        for (command in plugin) {
+            if (commands.hasOwnProperty(command)) {
                 console.log("[!] Conflicting namespace for command " + command);
                 console.log("[!] Skipping...");
                 continue;

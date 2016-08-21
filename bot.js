@@ -1,7 +1,7 @@
 var Discord = require("discord.js");
 
 var config = require("./config");
-var plugins = require("./plugins")
+var plugins = require("./plugins");
 
 var commands = {
     "ping": {
@@ -9,17 +9,17 @@ var commands = {
             bot.sendMessage(message, "pong!");
         }
     }
-}
+};
 
 var bot = new Discord.Client();
 
 bot.on("ready", function() {
     console.log("Ready to rock!");
-	bot.setPlayingGame("Stronghold");
+    bot.setPlayingGame("Stronghold");
 });
 
 bot.on("message", function(message) {
-    let prefix = "!";
+    const prefix = "!";
 
     if (message.author === bot.user || message.content[0] !== prefix) {
         return;
@@ -36,16 +36,13 @@ bot.on("message", function(message) {
     }
 });
 
-bot.on("voiceJoin", function(VoiceChannel,User){
-    bot.sendTTSMessage(bot.channels[0], User.username + " has joined");
-    console.log("Hi " + User.username);
+bot.on("voiceJoin", function(voiceChannel, user) {
+    bot.sendTTSMessage(bot.channels[0], user.username + " has joined");
 });
 
-bot.on("voiceLeave", function(VoiceChannel,User){
+bot.on("voiceLeave", function(voiceChannel, user) {
     bot.sendTTSMessage(bot.channels[0], User.username + " has left");
-    console.log("Bye " + User.username);
 });
-
 
 plugins.loadPlugins(commands);
 bot.loginWithToken(config.login_token, function(error, token) {
