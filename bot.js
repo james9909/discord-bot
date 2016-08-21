@@ -3,6 +3,10 @@ var config = require("./config");
 
 var bot = new Discord.Client();
 
+bot.on("ready", function () {
+    console.log("Ready to rock!");
+});
+
 bot.on("message", function(message) {
 
     let prefix = "!";
