@@ -51,6 +51,7 @@ bot.on("message", function(message) {
         return;
     }
 
+    message.content = message.content.toLowerCase();
     var args = message.content.split(" ");
     var command = args[0].substring(1); // Get rid of "!"
     args.shift();
