@@ -15,6 +15,7 @@ var bot = new Discord.Client();
 
 bot.on("ready", function() {
     console.log("Ready to rock!");
+	bot.setPlayingGame("Stronghold");
 });
 
 bot.on("message", function(message) {
