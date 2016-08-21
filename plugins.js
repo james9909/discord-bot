@@ -1,7 +1,7 @@
 var fs = require("fs");
 var npm = require("npm");
 var path = require("path");
-var execSync = require("child_process").execSync;
+var exec = require("child_process").exec;
 
 var pluginDirectory = "plugins/";
 
@@ -34,7 +34,7 @@ function getNPMDependencies(path) {
 
 function installDependencies(dependencies) {
     if (dependencies.length !== 0) {
-        execSync("npm install " + dependencies.join(" "));
+        exec("npm install " + dependencies.join(" "));
         return true;
     }
     return false;
