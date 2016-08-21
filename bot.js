@@ -26,6 +26,6 @@ bot.loginWithToken(config.login_token, function(error, token) {
     if (error) {
         console.log("Failed to log in.\n" + error);
     } else {
-        cosole.log("Logged in.");
+        console.log("Logged in.");
     }
 });
