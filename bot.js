@@ -1,6 +1,12 @@
 var Discord = require("discord.js");
 
-var config = require("./config");
+try {
+    var config = require("./config");
+} catch (e) {
+    console.log("[!] config.json not found.");
+    process.exit(1);
+}
+
 var plugins = require("./plugins");
 
 var commands = {
@@ -8,12 +14,10 @@ var commands = {
         run: function(bot, message, args) {
             bot.sendMessage(message, "pong!");
         }
-    }
-    
-    ,"calc": {
+    },
+    "calc": {
         run: function(bot, message, args) {
             bot.sendMessage(message, eval(args.join("")));
-
         }
     }
 };
