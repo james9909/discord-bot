@@ -1,37 +1,41 @@
 var Discord = require("discord.js");
+
 var config = require("./config");
+var plugins = require("./plugins")
+
+var commands = {
+    "ping": {
+        run: function(bot, message, args) {
+            bot.sendMessage(message, "pong!");
+        }
+    }
+}
 
 var bot = new Discord.Client();
 
-bot.on("ready", function () {
+bot.on("ready", function() {
     console.log("Ready to rock!");
 });
 
 bot.on("message", function(message) {
     let prefix = "!";
-	
-	var input = message.content.toUpperCase().split(" ");
-	
-    if (message.author == bot.user) {
-        // So we don't self trigger
+
+    if (message.author === bot.user || message.content[0] !== prefix) {
         return;
     }
 
-    if (input[0] === "PING") {
-        bot.sendMessage(message, "Pong!");
+    var args = message.content.split(" ");
+    var command = args[0].substring(1); // Get rid of "!"
+    args.shift();
+
+    if (command in commands) {
+        commands[command].run(bot, message, args);
+    } else {
+        bot.sendMessage(message, "It ain't gon work.");
     }
-
-	if (input[0] === "ROR") {
-		if (input.length === 2) {
-			bot.sendMessage(message, rorGenerator(parseInt(input[1])));
-		}
-
-		else {
-			bot.sendMessage(message, "It ain't gon work");
-		}
-	}
 });
 
+plugins.loadPlugins(commands);
 bot.loginWithToken(config.login_token, function(error, token) {
     if (error) {
         console.log("Failed to log in.\n" + error);
@@ -39,51 +43,3 @@ bot.loginWithToken(config.login_token, function(error, token) {
         console.log("Logged in.");
     }
 });
-
-
-function rorGenerator(players) {
-	if ((players === parseInt(players, 10)) && (players <= 4)) {
-		
-		var characters = ["Commando", "Enforcer", "Bandit", "Huntress", "HAN-D", "Engineer", "Miner", "Sniper", "Acrid", "Mercenary", "Loader", "CHEF"];
-		var artifacts = ["Honor", "Kin", "Disortion", "Spite", "Glass", "Enigma", "Sacrifice", "Commands", "Spirit", "Origin"];
-	
-		var output = "";
-		var num_artifacts = Math.floor(Math.random() * 10);
-
-		characters = shuffle(characters);
-		artifacts = shuffle(artifacts); 
-
-		output += "Artifacts: ";
-		for (i = num_artifacts; i > 0; i--) {
-			output += artifacts[i] + ", ";
-		}
-
-		output += "\nCharacters: "
-		for (i = players; i > 0; i--) {
-			output += characters[i] + ", ";
-		}
-
-		return output; 
-	}
-
-	return "It ain't gon work";
-};
-
-
-function shuffle(array) {
-	var currentIndex = array.length, temporaryValue, randomIndex;
-
- 	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-		//Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-		
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-		return array;
-};
