@@ -17,7 +17,14 @@ var commands = {
     },
     "calc": {
         run: function(bot, message, args) {
-            bot.sendMessage(message, eval(args.join("")));
+            try {
+                var expression = eval(args.join(""));
+            }
+            catch(e){
+                bot.sendMessage(message, "Invalid expression");
+                return;
+            }
+            bot.sendMessage(message, expression);
         }
     }
 };
