@@ -9,6 +9,13 @@ var commands = {
             bot.sendMessage(message, "pong!");
         }
     }
+    
+    ,"calc": {
+        run: function(bot, message, args) {
+            bot.sendMessage(message, eval(args.join("")));
+
+        }
+    }
 };
 
 var bot = new Discord.Client();
