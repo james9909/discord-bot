@@ -36,6 +36,17 @@ bot.on("message", function(message) {
     }
 });
 
+bot.on("voiceJoin", function(VoiceChannel,User){
+    bot.sendTTSMessage(VoiceChannel, User.username + " has joined");
+    console.log("Hi");
+});
+
+bot.on("voiceLeave", function(VoiceChannel,User){
+    bot.sendTTSMessage(VoiceChannel, User.username + " has left");
+    console.log("Bye");
+});
+
+
 plugins.loadPlugins(commands);
 bot.loginWithToken(config.login_token, function(error, token) {
     if (error) {
