@@ -23,6 +23,14 @@ var bot = new Discord.Client();
 bot.on("ready", function() {
     console.log("Ready to rock!");
     bot.setPlayingGame("Stronghold");
+    bot.on("voiceJoin", function(voiceChannel, user) {
+        bot.sendTTSMessage(bot.channels[0], user.username + " has joined");
+    });
+
+    bot.on("voiceLeave", function(voiceChannel, user) {
+        bot.sendTTSMessage(bot.channels[0], user.username + " has left");
+    });
+
 });
 
 bot.on("message", function(message) {
@@ -41,14 +49,6 @@ bot.on("message", function(message) {
     } else {
         bot.sendMessage(message, "It ain't gon work.");
     }
-});
-
-bot.on("voiceJoin", function(voiceChannel, user) {
-    bot.sendTTSMessage(bot.channels[0], user.username + " has joined");
-});
-
-bot.on("voiceLeave", function(voiceChannel, user) {
-    bot.sendTTSMessage(bot.channels[0], user.username + " has left");
 });
 
 plugins.loadPlugins(commands);
