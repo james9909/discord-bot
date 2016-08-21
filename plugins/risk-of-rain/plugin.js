@@ -25,7 +25,8 @@ function rorGenerator(players) {
 
         output += "\nCharacters: "
         for (i = players; i > 0; i--) {
-            output += characters[i] + ", ";
+            var newChar = Math.floor(Math.random() * 12);
+            output += characters[newChar] + ", ";
         }
 
         return output;
