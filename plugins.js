@@ -1,6 +1,9 @@
 var fs = require("fs");
 var npm = require("npm");
 var path = require("path");
+var execSync = require("child_process").execSync;
+
+var pluginDirectory = "plugins/"
 
 function pathExists(p) {
     try {
@@ -17,8 +20,6 @@ function getDirectories(source) {
     });
 }
 
-var pluginDirectory = "plugins/"
-
 function getNPMDependencies(path) {
     var p = require(path);
 
@@ -31,18 +32,11 @@ function getNPMDependencies(path) {
 }
 
 function installDependencies(dependencies) {
-    npm.load({
-        loaded: false
-    }, function (err) {
-        if (err) {
-            console.log("There was an error: " + err);
-        }
-        npm.commands.install(dependencies, function (err2, data) {
-            if (err2) {
-                console.log("There was an error: " + err2);
-            }
-        });
-    });
+    if (dependencies.length !== 0) {
+        execSync("npm install " + dependencies.join(" "));
+        return true;
+    }
+    return false;
 }
 
 function loadPlugins(commands) {
@@ -57,15 +51,16 @@ function loadPlugins(commands) {
             console.log("[!] " + plugins[p] + " is missing a package.json file! Skipping...");
             continue;
         }
-        // installDependencies(getNPMDependencies(dependencyPath));
+        var installed = installDependencies(getNPMDependencies(dependencyPath));
+        if (installed) console.log("[*] Dependencies for '" + plugins[p] + "' have been installed");
 
         var pluginPath = "./" + pluginDirectory + plugins[p] + "/plugin.js";
         if (!pathExists(pluginPath)) {
             console.log("[!] " + plugins[p] + " is missing a plugin.js file! Skipping...");
             continue;
         }
-        var plugin = require(pluginPath);
 
+        var plugin = require(pluginPath);
         for (var command in plugin) {
             if (command in commands) {
                 console.log("[!] Conflicting namespace for command " + command);
@@ -76,7 +71,9 @@ function loadPlugins(commands) {
                 run: plugin[command]
             };
         }
+        console.log("[*] Plugin '" + plugins[p] + "' has been loaded");
     }
+    console.log("[*] All plugins have been loaded");
 }
 
 module.exports = {};
