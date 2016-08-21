@@ -27,7 +27,7 @@ bot.on("message", function(message) {
 		}
 
 		else {
-			bot.sendMessage(message, "Invalid input");
+			bot.sendMessage(message, "It ain't gon work");
 		}
 	}
 });
@@ -42,7 +42,7 @@ bot.loginWithToken(config.login_token, function(error, token) {
 
 
 function rorGenerator(players) {
-	if (players === parseInt(players, 10)) {
+	if ((players === parseInt(players, 10)) && (players <= 4)) {
 		
 		var characters = ["Commando", "Enforcer", "Bandit", "Huntress", "HAN-D", "Engineer", "Miner", "Sniper", "Acrid", "Mercenary", "Loader", "CHEF"];
 		var artifacts = ["Honor", "Kin", "Disortion", "Spite", "Glass", "Enigma", "Sacrifice", "Commands", "Spirit", "Origin"];
@@ -55,18 +55,18 @@ function rorGenerator(players) {
 
 		output += "Artifacts: ";
 		for (i = num_artifacts; i > 0; i--) {
-			output += artifacts[i] + " ";
+			output += artifacts[i] + ", ";
 		}
 
 		output += "\nCharacters: "
 		for (i = players; i > 0; i--) {
-			output += characters[i] + " ";
+			output += characters[i] + ", ";
 		}
 
 		return output; 
 	}
 
-	return "Invalid input";
+	return "It ain't gon work";
 };
 
 
