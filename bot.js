@@ -9,6 +9,10 @@ try {
 
 var plugins = require("./plugins");
 
+var boostedUser = {user:null,
+                  boostTimes:0
+                  };
+
 var commands = {
     "ping": {
         run: function(bot, message, args) {
@@ -38,7 +42,22 @@ var commands = {
 				bot.sendMessage(message, "Usage: !random <Integer>");
 			}
 		}
-	}
+	},
+    
+    "boostme": {
+        run: function(bot, message, args){
+            if (message.author == boostedUser.user) {
+                boostedUser.boostTimes += 1;
+                bot.sendMessage(message, "FeelsBoostedMan :muscle: " + boostedUser.user + " is feeling boosted + " + boostedUser.boostTimes);
+            }
+            
+            else {
+                boostedUser.user = message.author;
+                boostedUser.boostTimes = 1;
+                bot.sendMessage(message, boostedUser.user + " is now boosted + 1");
+            }
+        }
+    }
 };
 
 var bot = new Discord.Client();
