@@ -46,6 +46,11 @@ var bot = new Discord.Client();
 bot.on("ready", function() {
     console.log("Ready to rock!");
     bot.setPlayingGame("Stronghold");
+    
+    bot.on("voiceSwitch", function(voiceOld,voiceNew,user){
+        bot.sendTTSMessage(bot.channels[0], user.username + " has switched");
+    });
+    
     bot.on("voiceJoin", function(voiceChannel, user) {
         bot.sendTTSMessage(bot.channels[0], user.username + " has joined");
     });
