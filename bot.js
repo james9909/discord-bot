@@ -15,6 +15,7 @@ var commands = {
             bot.sendMessage(message, "pong!");
         }
     },
+
     "calc": {
         run: function(bot, message, args) {
             try {
@@ -26,7 +27,18 @@ var commands = {
             }
             bot.sendMessage(message, expression);
         }
-    }
+    },
+
+	"random": {
+		run: function(bot, message, args) {
+			try {
+				bot.sendMessage(message, ":game_die: " + message.author.username + " has rolled **1-" + args[0] + "** and obtained " + Math.floor(Math.random() * parseInt(args[0]) + 1).toString()); 
+			}
+			catch(e){
+				bot.sendMessage(message, "Usage: !random <Integer>");
+			}
+		}
+	}
 };
 
 var bot = new Discord.Client();
